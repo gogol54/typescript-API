@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserByID = exports.getUsers = exports.createUser = void 0;
+exports.deleteUserByID = exports.updateUserByID = exports.getUserByEmail = exports.getUserByID = exports.getUsers = exports.createUser = void 0;
 const user_model_1 = require("../models/user.model");
 const createUser = (userBody, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -42,3 +42,42 @@ const getUserByID = (id) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getUserByID = getUserByID;
+const getUserByEmail = (email) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const user = yield user_model_1.dataUser.findOne({
+            "email": email
+        });
+        return user;
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.getUserByEmail = getUserByEmail;
+const updateUserByID = (id, data, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        let user = yield user_model_1.dataUser.findByIdAndUpdate(id, data);
+        user = yield user_model_1.dataUser.findById(id);
+        res.status(200).send(user);
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.updateUserByID = updateUserByID;
+const deleteUserByID = (id, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield user_model_1.dataUser.findById(id).then((user) => __awaiter(void 0, void 0, void 0, function* () {
+            if (!user)
+                res.status(404).send({ message: 'Bad request, user not exists!' });
+            yield user_model_1.dataUser.findByIdAndDelete(id);
+            res.send({ message: 'User ' + (user === null || user === void 0 ? void 0 : user.name) + ' has deleted!' });
+        })).catch((err) => {
+            res.status(300).send(err);
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.deleteUserByID = deleteUserByID;

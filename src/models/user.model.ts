@@ -37,6 +37,7 @@ const UserSchema = new Schema<StructUser>({
   },
   token: {
     type: String,
+    default: null
   } 
 
 },{ timestamps: true, autoIndex: true });

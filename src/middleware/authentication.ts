@@ -7,6 +7,8 @@ import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import { getUserByID } from '../services/user.service'
 import { getPublicationByID } from '../services/pub.service'
+import { getFileByID } from '../services/file.service'
+
 export const token = (data: any) => {
   return jwt.sign({
     id: data
@@ -41,14 +43,29 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
   }
 }
 
+export const verifyTokenIsReceiver = async (req:Request, res:Response, next:NextFunction) => {
+  let isReceiver: any = await getFileByID(req.params.id)
+  let authHeader: any = req.headers.authorization 
+  authHeader = authHeader?.replace('Bearer ','')
+  let decoded = jwt.verify(authHeader, process.env.JWT_KEY)
+  let user: any = await getUserByID(decoded.id)
+ if(isReceiver.userID_receiver === decoded.id || user?.isAdmin){
+    verifyToken(req, res, ()=> {
+      next()
+    })
+  }else {
+    return res.status(403).json("You not allowed to that!")
+  }
+}
+
+
 export const verifyTokenAuth = async (req:Request, res:Response, next:NextFunction) => {
   let isCurrent: any = await getUserByID(req.params.id)
   let authHeader: any = req.headers.authorization 
   authHeader = authHeader?.replace('Bearer ','')
   let decoded = jwt.verify(authHeader, process.env.JWT_KEY)
-  const aux:any = isCurrent ? isCurrent._id : false
   let user: any = await getUserByID(decoded.id)
-  if(req.params.id === decoded.id || user.isAdmin){
+ if(req.params.id === decoded.id || user?.isAdmin){
     verifyToken(req, res, ()=> {
       next()
     })
@@ -63,6 +80,9 @@ export const verifyTokenAuthPub = async (req:Request, res:Response, next:NextFun
   authHeader = authHeader?.replace('Bearer ','')
   let decoded = jwt.verify(authHeader, process.env.JWT_KEY)
   let user: any = await getUserByID(decoded.id)
+  if(!isAuthor){
+    return res.status(403).json("This publication has been deleted!")
+  }
   if(isAuthor.author === decoded.id || user.isAdmin){
     verifyToken(req, res, ()=> {
       next()
@@ -74,13 +94,15 @@ export const verifyTokenAuthPub = async (req:Request, res:Response, next:NextFun
 
 export const verifyTokenAdmin = async (req: Request, res:Response, next:NextFunction) => {
   let authHeader: any = req.headers.authorization 
+  authHeader = authHeader?.replace('Bearer ','')
   let decoded = jwt.verify(authHeader, process.env.JWT_KEY)
   let user: any = await getUserByID(decoded.id)
+
   verifyToken(req, res, ()=> {
     if(user.isAdmin){
       next()
     }else {
-      res.status(403).json("You are not alowed to do that! just ADMIN!")
+      res.status(403).json({message :"You are not alowed to do that! Just ADMIN accounts have permissions!"})
     }
   })
 }

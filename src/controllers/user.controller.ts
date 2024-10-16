@@ -9,7 +9,10 @@ import {
   updateUserByID, 
   deleteUserByID 
 } from '../services/user.service'
-import { encryptHashing, token } from '../middleware/authentication'
+import { 
+  encryptHashing, 
+  token 
+} from '../middleware/authentication'
 
 export const addUser = async (req: Request, res: Response) => {
   let data: any = req.body 
@@ -34,6 +37,11 @@ export const getUserById = async (req: Request, res: Response) => {
 export const putUser = async (req: Request, res: Response) => {
   const id = req.params.id
   const data = req.body
+  if(req.body.passwd){
+    let passwd = req.body.passwd
+    const pwd = encryptHashing(passwd)
+    data.passwd = pwd
+  }
   const user = await updateUserByID(id, data, res)
   res.status(202).send(user)
 }

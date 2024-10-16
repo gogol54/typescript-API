@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPublicationByID = exports.getPublications = exports.createPub = void 0;
+exports.deletePublicationByID = exports.putPublicationByID = exports.getPublicationByID = exports.getPublications = exports.createPub = void 0;
 const pub_model_1 = require("../models/pub.model");
 const createPub = (pubBody, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -41,3 +41,30 @@ const getPublicationByID = (id) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.getPublicationByID = getPublicationByID;
+const putPublicationByID = (id, pubBody) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        let pub = yield pub_model_1.dataPub.findByIdAndUpdate(id, pubBody);
+        pub = yield pub_model_1.dataPub.findById(id);
+        return pub;
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.putPublicationByID = putPublicationByID;
+const deletePublicationByID = (id, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield pub_model_1.dataPub.findById(id).then((user) => __awaiter(void 0, void 0, void 0, function* () {
+            if (!user)
+                res.status(404).send({ message: 'Bad request, user not exists!' });
+            yield pub_model_1.dataPub.findByIdAndDelete(id);
+            res.send({ message: 'ok user ' + user + ' deleted' });
+        })).catch((err) => {
+            res.status(300).send(err);
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.deletePublicationByID = deletePublicationByID;

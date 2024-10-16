@@ -8,4 +8,3 @@ const loginRouter: Router = express.Router()
 loginRouter.post('/', loginController)
 
 export default loginRouter
-

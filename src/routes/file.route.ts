@@ -1,13 +1,25 @@
 import express, { Router } from "express"
-import { addFile ,getFiles, getFileId, getFilesByUser, updateFile, deleteFile } from "../controllers/file.controller" 
+import { 
+    addFile ,
+    getFiles, 
+    getFileId, 
+    getFilesByUser, 
+    updateFile, 
+    deleteFile 
+} from "../controllers/file.controller" 
+import { 
+    verifyTokenAuth,
+    verifyTokenAdmin,
+    verifyTokenIsReceiver,  
+} from "../middleware/authentication"
 
 const fileRouter: Router = express.Router()
 
-fileRouter.post('/create', addFile)
-fileRouter.get('/files', getFiles)
-fileRouter.get('/:id', getFileId)
-fileRouter.get('/list/:id', getFilesByUser)
-fileRouter.put('/update/:id', updateFile)
-fileRouter.delete('/:id', deleteFile)
+fileRouter.post('/create', verifyTokenAdmin, addFile)
+fileRouter.get('/files', verifyTokenAdmin, getFiles)
+fileRouter.get('/:id', verifyTokenIsReceiver, getFileId)
+fileRouter.get('/list/:id', verifyTokenAuth, getFilesByUser)
+fileRouter.put('/update/:id',verifyTokenAdmin, updateFile)
+fileRouter.delete('/:id', verifyTokenAdmin, deleteFile)
 
 export default fileRouter

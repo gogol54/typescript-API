@@ -9,14 +9,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getFilesByIdUser = exports.getFileByID = exports.getAllFiles = exports.createFile = void 0;
+exports.deleteFileByID = exports.udpateFileByID = exports.getFilesByIdUser = exports.getFileByID = exports.getAllFiles = exports.createFile = void 0;
 const file_model_1 = require("../models/file.model");
 const createFile = (fileBody, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        console.log(fileBody);
         const newFile = yield file_model_1.dataFile.create(fileBody);
         return newFile;
     }
     catch (error) {
+        console.log(error);
         res.status(400).send(error);
     }
 });
@@ -54,3 +56,30 @@ const getFilesByIdUser = (id) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.getFilesByIdUser = getFilesByIdUser;
+const udpateFileByID = (id, data, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        let user = yield file_model_1.dataFile.findByIdAndUpdate(id, data);
+        user = yield file_model_1.dataFile.findById(id);
+        res.status(200).send(user);
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.udpateFileByID = udpateFileByID;
+const deleteFileByID = (id, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield file_model_1.dataFile.findById(id).then((file) => __awaiter(void 0, void 0, void 0, function* () {
+            if (!file)
+                res.status(404).send({ message: 'Bad request, file not exists!' });
+            yield file_model_1.dataFile.findByIdAndDelete(id);
+            res.send({ message: 'File ' + (file === null || file === void 0 ? void 0 : file.filename) + ' has deleted!' });
+        })).catch((err) => {
+            res.status(300).send(err);
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.deleteFileByID = deleteFileByID;

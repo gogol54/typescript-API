@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPubById = exports.getPubs = exports.addPub = void 0;
+exports.deletePub = exports.putPub = exports.getPubById = exports.getPubs = exports.addPub = void 0;
 const pub_service_1 = require("../services/pub.service");
 const addPub = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
@@ -19,12 +19,25 @@ const addPub = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.addPub = addPub;
 const getPubs = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = yield (0, pub_service_1.getPublications)();
-    res.send(data);
+    res.status(200).send(data);
 });
 exports.getPubs = getPubs;
 const getPubById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
     const pub = yield (0, pub_service_1.getPublicationByID)(id);
-    res.send(pub);
+    res.status(200).send(pub);
 });
 exports.getPubById = getPubById;
+const putPub = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.params.id;
+    const data = req.body;
+    const pub = yield (0, pub_service_1.putPublicationByID)(id, data);
+    res.status(202).send(pub);
+});
+exports.putPub = putPub;
+const deletePub = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.params.id;
+    const pub = yield (0, pub_service_1.deletePublicationByID)(id, res);
+    res.status(200).send(pub);
+});
+exports.deletePub = deletePub;

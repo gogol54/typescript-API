@@ -7,6 +7,7 @@ const express_1 = require("express");
 const pub_route_1 = __importDefault(require("./pub.route"));
 const user_route_1 = __importDefault(require("./user.route"));
 const file_route_1 = __importDefault(require("./file.route"));
+const login_route_1 = __importDefault(require("./login.route"));
 const router = (0, express_1.Router)();
 const routes = [
     {
@@ -23,7 +24,7 @@ const routes = [
     },
     {
         path: '/login',
-        router: pub_route_1.default
+        router: login_route_1.default
     }
 ];
 routes.forEach((route) => {

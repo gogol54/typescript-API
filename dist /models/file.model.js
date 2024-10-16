@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.dataFile = void 0;
 const mongoose_1 = require("mongoose");
 const FileSchema = new mongoose_1.Schema({
-    file: {
+    filename: {
         type: String,
         required: true
     },

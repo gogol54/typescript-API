@@ -1,6 +1,15 @@
 import express, { Router } from "express"
-import { addPub, getPubs, getPubById, putPub, deletePub } from "../controllers/pub.controller"
-import { verifyToken, verifyTokenAuth, verifyTokenAuthPub } from "../middleware/authentication"
+import { 
+    addPub, 
+    getPubs, 
+    getPubById, 
+    putPub, 
+    deletePub 
+} from "../controllers/pub.controller"
+import { 
+    verifyToken, 
+    verifyTokenAuthPub 
+} from "../middleware/authentication"
 const pubRouter: Router = express.Router()
 
 pubRouter.post('/create', verifyToken, addPub)
