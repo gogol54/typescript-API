@@ -12,6 +12,7 @@ import {
 } from "../middleware/authentication"
 const pubRouter: Router = express.Router()
 
+//OK 
 pubRouter.post('/create', verifyToken, addPub)
 pubRouter.get('/list', verifyToken, getPubs)
 pubRouter.get('/:id', verifyToken, getPubById)

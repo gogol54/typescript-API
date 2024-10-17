@@ -27,7 +27,6 @@ export const verifyPass = async (password: string, localPassword: string) => {
 export const verifyToken = (req: Request, res: Response, next: NextFunction) => {
   let authHeader: string = req.headers.authorization ? req.headers.authorization : ''
   authHeader = authHeader.replace('Bearer ','')
-  let aux = jwt.verify(authHeader, process.env.JWT_KEY)
   if(authHeader  && authHeader != undefined){
     jwt.verify(authHeader, process.env.JWT_KEY, (err, user) =>{
       if(err) {

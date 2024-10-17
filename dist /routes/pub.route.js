@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const pub_controller_1 = require("../controllers/pub.controller");
 const authentication_1 = require("../middleware/authentication");
 const pubRouter = express_1.default.Router();
+//OK 
 pubRouter.post('/create', authentication_1.verifyToken, pub_controller_1.addPub);
 pubRouter.get('/list', authentication_1.verifyToken, pub_controller_1.getPubs);
 pubRouter.get('/:id', authentication_1.verifyToken, pub_controller_1.getPubById);

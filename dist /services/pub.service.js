@@ -58,7 +58,7 @@ const deletePublicationByID = (id, res) => __awaiter(void 0, void 0, void 0, fun
             if (!user)
                 res.status(404).send({ message: 'Bad request, user not exists!' });
             yield pub_model_1.dataPub.findByIdAndDelete(id);
-            res.send({ message: 'ok user ' + user + ' deleted' });
+            res.send({ message: 'ok publication ' + user + ' deleted' });
         })).catch((err) => {
             res.status(300).send(err);
         });

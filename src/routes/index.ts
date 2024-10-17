@@ -13,6 +13,10 @@ interface ROUTES {
 
 const routes: ROUTES[] = [
   {
+    path: '/',
+    router: loginRouter
+  },
+  {
     path: '/pub',
     router: pubRouter
   },
@@ -23,10 +27,6 @@ const routes: ROUTES[] = [
   {
     path: '/file',
     router: fileRouter
-  },
-  {
-    path: '/login',
-    router: loginRouter
   }
 ]
 

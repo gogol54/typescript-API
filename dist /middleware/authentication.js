@@ -36,7 +36,6 @@ exports.verifyPass = verifyPass;
 const verifyToken = (req, res, next) => {
     let authHeader = req.headers.authorization ? req.headers.authorization : '';
     authHeader = authHeader.replace('Bearer ', '');
-    let aux = jsonwebtoken_1.default.verify(authHeader, process.env.JWT_KEY);
     if (authHeader && authHeader != undefined) {
         jsonwebtoken_1.default.verify(authHeader, process.env.JWT_KEY, (err, user) => {
             if (err) {

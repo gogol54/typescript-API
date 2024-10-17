@@ -11,6 +11,10 @@ const login_route_1 = __importDefault(require("./login.route"));
 const router = (0, express_1.Router)();
 const routes = [
     {
+        path: '/',
+        router: login_route_1.default
+    },
+    {
         path: '/pub',
         router: pub_route_1.default
     },
@@ -21,10 +25,6 @@ const routes = [
     {
         path: '/file',
         router: file_route_1.default
-    },
-    {
-        path: '/login',
-        router: login_route_1.default
     }
 ];
 routes.forEach((route) => {
