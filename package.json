@@ -6,6 +6,7 @@
     "test": "jest",
     "start": "nodemon",
     "build": "tsc --build",
+    "shivkumarscript": "ts-node -T -P tsconfig.json src/server.ts",
     "dev": "nodemon ./src/server.ts"
   },
   "keywords": [],
