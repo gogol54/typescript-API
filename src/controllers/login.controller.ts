@@ -16,6 +16,7 @@ export const loginController = async (req: Request, res: Response) => {
 }
 
 export const logOutController = async (req: Request, res: Response) => {
+  console.log('chegou na função')
   let authHeader: any = req.headers.authorization 
   authHeader = authHeader?.replace('Bearer ','')
   let decoded = jwt.verify(authHeader, process.env.JWT_KEY)

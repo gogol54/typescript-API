@@ -11,5 +11,5 @@ import {
 const loginRouter: Router = express.Router()
 
 loginRouter.post('/login', loginController)
-loginRouter.post('/logout', verifyToken, logOutController)
+loginRouter.get('/logout', verifyToken, logOutController)
 export default loginRouter
