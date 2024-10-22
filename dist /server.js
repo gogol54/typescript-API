@@ -14,6 +14,7 @@ app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
 app.use('/api', routes_1.default);
+
 db_config_1.db.then(() => {
     app.listen(3030, () => {
         console.log("Running on port: http://localhost:" + 3030);

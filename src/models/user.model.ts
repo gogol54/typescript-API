@@ -6,9 +6,16 @@ export interface StructUser {
   age: Number;
   email: string;
   img: string;
+  phone: string;
+  birthdate: Date;
+  gender: string;
+  address: string;
+  occupation: string;
   passwd: string;
   isAdmin: boolean;
   token: string;
+  emergency_name: string;
+  emergency_phone: string;
 }
 const options = {
   type: String,
@@ -31,15 +38,36 @@ const UserSchema = new Schema<StructUser>({
     type: String,
     required: true
   },
-  isAdmin: {
-    type: Boolean,
-    default: false
-  },
   token: {
     type: String,
     default: null
-  } 
-
+  },
+  phone: {
+    type: String,
+    unique: true,
+  },
+  birthdate: {
+    type: Date,
+  },
+  gender: {
+    type: String,
+  },
+  address: {
+    type: String,
+  },
+  occupation: {
+    type: String,
+  },
+  emergency_name:{
+    type: String,
+  },
+  emergency_phone: {
+    type: String,
+  },
+  isAdmin: {
+    type: Boolean,
+    default: false
+  }
 },{ timestamps: true, autoIndex: true });
 
 export const dataUser = model<StructUser>("Users", UserSchema)
